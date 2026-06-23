@@ -1,89 +1,153 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather App</title>
-    <link rel="stylesheet" href="styles.css">
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Weather App</title>
+   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="app-container">
-        
-        <header class="app-header">
-            <div class="header-top">
-                <div class="brand">Weather App</div>
-                
-                <nav class="app-nav">
-                    <a href="#" class="active">Dashboard</a>
-                    <a href="#">Map</a>
-                    <a href="#">Education</a>
-                    <a href="#">Historical</a>
-                </nav>
+   <div class="app-container">
+      
+       <header class="app-header">
+           <div class="header-top">
+               <div class="brand">Weather App</div>
+              
+               <nav id="app-nav" class="app-nav">
+                   <a href="#" class="active">Dashboard</a>
+                   <a href="#">Map</a>
+                   <a href="#">Education</a>
+                   <a href="#">Historical</a>
+               </nav>
 
-                <button id="theme-toggle" aria-label="Toggle dark/light mode">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="5"></circle>
-                        <line x1="12" y1="1" x2="12" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="23"></line>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                        <line x1="1" y1="12" x2="3" y2="12"></line>
-                        <line x1="21" y1="12" x2="23" y2="12"></line>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg>
-                </button>
-            </div>
-        </header>
 
-        <main class="app-main">
-            
-            <section class="search-section">
-                <form id="search-form" class="search-form">
-                    <div class="input-wrapper">
-                        <input type="text" id="city-input" placeholder="Search for a city or meteorological station..." autocomplete="off">
-                        <button type="button" id="clear-btn" class="clear-btn hidden" aria-label="Clear search">✕</button>
-                    </div>
-                    <button type="submit" id="search-btn" class="search-btn">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="11" cy="11" r="8"></circle>
-                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                        </svg>
-                        SEARCH
-                    </button>
-                </form>
-                
-                <div id="loading-spinner" class="loading-spinner hidden"></div>
-                <div id="error-message" class="error-message hidden"></div>
-            </section>
-            
-            <section class="placeholder-box" id="current-weather-placeholder">
-                <p>[ Placeholder: Current Weather Card ]</p>
-            </section>
+               <div class="header-controls">
+                   <button id="theme-toggle" aria-label="Toggle dark/light mode">
+                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                           <circle cx="12" cy="12" r="5"></circle>
+                           <line x1="12" y1="1" x2="12" y2="3"></line>
+                           <line x1="12" y1="21" x2="12" y2="23"></line>
+                           <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                           <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                           <line x1="1" y1="12" x2="3" y2="12"></line>
+                           <line x1="21" y1="12" x2="23" y2="12"></line>
+                           <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                           <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                       </svg>
+                   </button>
+                   <button id="mobile-menu-btn" class="mobile-menu-btn hidden-desktop" aria-label="Toggle Navigation Menu">
+                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                   </button>
+               </div>
+           </div>
+       </header>
 
-            <section class="placeholder-box" id="forecast-placeholder">
-                <p>[ Placeholder: 5-Day Forecast Strip ]</p>
-            </section>
 
-            <section class="placeholder-box" id="insights-placeholder">
-                <p>[ Placeholder: Hourly Micro-Data Insights ]</p>
-            </section>
-        </main>
+       <main class="app-main">
+          
+           <section class="search-section">
+               <form id="search-form" class="search-form">
+                   <div class="input-wrapper">
+                       <input type="text" id="city-input" placeholder="Search for a city..." autocomplete="off">
+                       <button type="button" id="clear-btn" class="clear-btn hidden" aria-label="Clear search">✕</button>
+                       <ul id="suggestions-list" class="suggestions-list hidden"></ul>
+                   </div>
+                   <button type="submit" id="search-btn" class="search-btn">
+                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                           <circle cx="11" cy="11" r="8"></circle>
+                           <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                       </svg>
+                       <span>SEARCH</span>
+                   </button>
+                   <button type="button" id="app-reset-btn" class="app-reset-btn hidden" title="Clear saved city">
+                       <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg>
+                   </button>
+               </form>
+              
+               <div id="loading-spinner" class="loading-spinner hidden"></div>
+               <div id="error-message" class="error-message hidden"></div>
+           </section>
+          
+           <section id="current-weather-section" class="weather-section hidden">
+               <div class="current-weather-card interactive-card">
+                   <div class="card-header">
+                       <div class="location-info">
+                           <h2 id="cw-location">City, Country</h2>
+                           <p class="date-display">
+                               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                               <span id="cw-date">Monday, Jan 1</span>
+                           </p>
+                       </div>
+                   </div>
+                  
+                   <div class="card-body">
+                       <div class="main-temp-block">
+                           <div class="temp-display">
+                               <span id="cw-temp" class="temp-value">--</span>
+                               <span id="cw-temp-unit" class="temp-unit">°C</span>
+                           </div>
+                           <div class="condition-display">
+                               <span id="cw-icon" class="condition-icon">--</span>
+                               <span id="cw-condition">Condition</span>
+                           </div>
+                       </div>
+                      
+                       <div class="stats-grid">
+                           <div class="stat-badge interactive-badge">
+                               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #0ea5e9;"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"></path></svg>
+                               <span class="stat-label">Humidity</span>
+                               <span id="cw-humidity" class="stat-value">--%</span>
+                           </div>
+                           <div class="stat-badge interactive-badge">
+                               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #8b5cf6;"><path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"></path></svg>
+                               <span class="stat-label">Wind</span>
+                               <span id="cw-wind" class="stat-value">-- km/h</span>
+                           </div>
+                           <div class="stat-badge interactive-badge">
+                               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #10b981;"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                               <span class="stat-label">Pressure</span>
+                               <span id="cw-pressure" class="stat-value">-- hPa</span>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+           </section>
 
-        <footer class="app-footer">
-            <div class="footer-info">
-                <strong>Weather App</strong><br>
-                <span>© 2024 Weather App. Precision Weather Education.</span>
-            </div>
-            <div class="footer-links">
-                <a href="#">Privacy Policy</a>
-                <a href="#">Terms of Service</a>
-                <a href="#">Scientific Data Sources</a>
-            </div>
-        </footer>
 
-    </div>
+           <section id="forecast-section" class="forecast-section hidden">
+               <div id="forecast-container" class="forecast-grid">
+                   </div>
+           </section>
 
-    <script src="script.js"></script>
+
+           <section id="insights-section" class="insights-section hidden">
+               <div class="insights-card interactive-card">
+                   <div class="insights-header">
+                       <h3>Hourly Micro-Data Insights</h3>
+                       <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #0d9488;"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                   </div>
+                   <div id="hourly-container" class="hourly-list">
+                       </div>
+               </div>
+           </section>
+       </main>
+
+
+       <footer class="app-footer">
+           <div class="footer-info">
+               <strong>Weather App</strong><br>
+               <span>© 2024 Weather App. Precision Weather Education.</span>
+           </div>
+           <div class="footer-links">
+               <a href="#">Privacy Policy</a>
+               <a href="#">Terms of Service</a>
+               <a href="#">Scientific Data Sources</a>
+           </div>
+       </footer>
+   </div>
+
+
+   <script src="script.js"></script>
 </body>
 </html>
+
