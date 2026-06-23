@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <div class="header-top">
+                <h1>Weather App</h1>
+                <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle Theme">
+                    <svg id="theme-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+            <nav class="app-nav">
+                <ul>
+                    <li><a href="#" class="active">Dashboard</a></li>
+                    <li><a href="#">Map</a></li>
+                    <li><a href="#">Education</a></li>
+                    <li><a href="#">Historical</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main class="app-main">
+            <section id="search-section" class="placeholder-section">
+                <p>Search Bar Placeholder</p>
+            </section>
+            
+            <section id="current-weather-section" class="placeholder-section">
+                <p>Current Weather Card Placeholder</p>
+            </section>
+
+            <section id="forecast-section" class="placeholder-section">
+                <p>5-Day Forecast Strip Placeholder</p>
+            </section>
+
+            <section id="insights-section" class="placeholder-section">
+                <p>Hourly Micro-Data Insights Placeholder</p>
+            </section>
+        </main>
+
+        <footer class="app-footer">
+            <div class="footer-brand">
+                <strong>Weather App</strong>
+                <p>&copy; 2024 Weather App. Precision Weather Education</p>
+            </div>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Scientific Data Sources</a>
+            </div>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
