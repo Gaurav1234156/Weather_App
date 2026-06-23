@@ -1,51 +1,49 @@
-/* --- Design Tokens --- */
+/* --- Global Variables & Theme --- */
 :root {
-    /* Light Theme Variables */
     --bg-color: #f4f7f9;
     --surface-color: #ffffff;
+    --surface-hover: #f8fafc;
     --text-primary: #333333;
     --text-secondary: #666666;
     --border-color: #e2e8f0;
-    
-    /* Header (remains dark purple based on mockup) */
     --header-bg: #4c416a;
     --header-text: #ffffff;
     --nav-text: #a8a0c0;
     --nav-active: #f1b36d;
+    --focus-ring: rgba(13, 148, 136, 0.5);
 }
 
 [data-theme="dark"] {
-    /* Dark Theme Variables */
     --bg-color: #121212;
     --surface-color: #1e1e1e;
+    --surface-hover: #2a2a2a;
     --text-primary: #e0e0e0;
     --text-secondary: #aaaaaa;
     --border-color: #333333;
-    
     --header-bg: #2a2440;
     --header-text: #ffffff;
     --nav-text: #8c85a6;
     --nav-active: #f1b36d;
+    --focus-ring: rgba(241, 179, 109, 0.5);
 }
 
-/* --- Global Reset & Base Styles --- */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
 body {
     background-color: var(--bg-color);
     color: var(--text-primary);
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition: background-color 0.4s ease, color 0.4s ease;
     display: flex;
     justify-content: center;
     min-height: 100vh;
 }
 
-/* --- Layout Container --- */
+/* --- Layout --- */
 .app-container {
     width: 100%;
     max-width: 700px;
@@ -53,7 +51,13 @@ body {
     flex-direction: column;
     min-height: 100vh;
     background-color: var(--bg-color);
-    transition: background-color 0.3s ease;
+    transition: background-color 0.4s ease;
+}
+
+/* --- Polish: Focus States --- */
+button:focus-visible, input:focus-visible, a:focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
 }
 
 /* --- Header & Nav --- */
@@ -61,13 +65,21 @@ body {
     background-color: var(--header-bg);
     color: var(--header-text);
     padding: 1rem 1.5rem;
-    border-radius: 0 0 8px 8px; /* Slight rounding based on typical modern app UI */
+    border-radius: 0 0 8px 8px;
+    transition: background-color 0.4s ease;
 }
 
 .header-top {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+}
+
+.header-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 }
 
 .brand {
@@ -78,6 +90,7 @@ body {
 .app-nav {
     display: flex;
     gap: 1.5rem;
+    transition: all 0.3s ease;
 }
 
 .app-nav a {
@@ -86,6 +99,11 @@ body {
     font-size: 0.9rem;
     font-weight: 500;
     padding-bottom: 4px;
+    transition: color 0.2s ease;
+}
+
+.app-nav a:hover {
+    color: #ffffff;
 }
 
 .app-nav a.active {
@@ -93,7 +111,7 @@ body {
     border-bottom: 2px solid var(--nav-active);
 }
 
-#theme-toggle {
+#theme-toggle, .mobile-menu-btn {
     background: none;
     border: none;
     color: var(--header-text);
@@ -101,9 +119,19 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: transform 0.2s ease, color 0.2s ease;
 }
 
-/* --- Main Content & Placeholders --- */
+#theme-toggle:hover, .mobile-menu-btn:hover {
+    transform: scale(1.1);
+    color: var(--nav-active);
+}
+
+.hidden-desktop {
+    display: none;
+}
+
+/* --- Main Content --- */
 .app-main {
     flex-grow: 1;
     padding: 2rem 1.5rem;
@@ -112,58 +140,7 @@ body {
     gap: 1.5rem;
 }
 
-.placeholder-box {
-    background-color: var(--surface-color);
-    border: 1px dashed var(--border-color);
-    border-radius: 12px;
-    padding: 2rem;
-    text-align: center;
-    color: var(--text-secondary);
-    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
-}
-
-/* --- Footer --- */
-.app-footer {
-    padding: 2rem 1.5rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    font-size: 0.8rem;
-    color: var(--text-secondary);
-    border-top: 1px solid var(--border-color);
-}
-
-.footer-info span {
-    font-size: 0.75rem;
-    display: block;
-    margin-top: 4px;
-}
-
-.footer-links {
-    display: flex;
-    gap: 1rem;
-}
-
-.footer-links a {
-    color: var(--text-secondary);
-    text-decoration: none;
-}
-
-.footer-links a:hover {
-    text-decoration: underline;
-}
-
-/* Keep all your existing CSS from Milestone 1 above this line */
-
-/* --- Milestone 2: Search Section --- */
-.search-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-    width: 100%;
-}
-
+/* --- Search Area --- */
 .search-form {
     display: flex;
     width: 100%;
@@ -185,13 +162,12 @@ body {
     background-color: var(--surface-color);
     color: var(--text-primary);
     font-size: 0.95rem;
-    outline: none;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    transition: all 0.3s ease;
 }
 
-#city-input:focus {
-    border-color: #0d9488;
-    box-shadow: 0 0 0 2px rgba(13, 148, 136, 0.2);
+#city-input:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 
 .clear-btn {
@@ -203,17 +179,10 @@ body {
     cursor: pointer;
     font-size: 1rem;
     padding: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.clear-btn:hover {
-    color: var(--text-primary);
 }
 
 .search-btn {
-    background-color: #0d9488; /* Teal color matching the mockup */
+    background-color: #0d9488;
     color: white;
     border: none;
     border-radius: 24px;
@@ -224,19 +193,50 @@ body {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    transition: background-color 0.2s ease;
+    transition: background-color 0.2s ease, transform 0.1s ease, opacity 0.3s ease;
 }
 
-.search-btn:hover {
+.search-btn:hover:not(:disabled) {
     background-color: #0f766e;
+    transform: translateY(-1px);
 }
 
-/* Utility class to hide elements */
-.hidden {
-    display: none !important;
+.search-btn:active:not(:disabled) {
+    transform: translateY(0);
 }
 
-/* Loading Spinner */
+.search-btn:disabled {
+    background-color: var(--text-secondary);
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.app-reset-btn {
+    background-color: var(--surface-color);
+    color: #ef4444;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 0 0.75rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.app-reset-btn:hover {
+    background-color: #fee2e2;
+    border-color: #f87171;
+}
+
+[data-theme="dark"] .app-reset-btn:hover {
+    background-color: rgba(239, 68, 68, 0.15);
+    border-color: #991b1b;
+}
+
+/* Loading & Error */
+.hidden { display: none !important; }
+
 .loading-spinner {
     width: 32px;
     height: 32px;
@@ -247,12 +247,8 @@ body {
     margin: 1rem auto;
 }
 
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
+@keyframes spin { 100% { transform: rotate(360deg); } }
 
-/* Error Message */
 .error-message {
     background-color: #fee2e2;
     color: #b91c1c;
@@ -271,131 +267,57 @@ body {
     border-color: #991b1b;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-5px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* --- Milestone 3: Current Weather Card --- */
-.weather-section {
-    width: 100%;
-    animation: fadeIn 0.4s ease;
-}
-
-.current-weather-card {
+/* --- Cards & Polish --- */
+.interactive-card {
     background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
     border-radius: 16px;
     padding: 2rem;
     box-shadow: 0 4px 6px rgba(0,0,0,0.02);
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    border: 1px solid var(--border-color);
+    transition: all 0.4s ease;
 }
 
-.location-info h2 {
-    font-size: 1.3rem;
-    font-weight: 600;
-    margin-bottom: 0.3rem;
+.interactive-card:hover {
+    box-shadow: 0 8px 16px rgba(0,0,0,0.06);
+    border-color: var(--text-secondary);
 }
 
-.date-display {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: var(--text-secondary);
-    font-size: 0.85rem;
+.interactive-badge {
+    transition: background-color 0.2s ease;
+}
+.interactive-badge:hover {
+    background-color: var(--surface-hover);
 }
 
-.card-body {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 2rem;
-}
+/* Current Weather */
+.weather-section { animation: fadeIn 0.4s ease; }
+.current-weather-card { display: flex; flex-direction: column; gap: 1.5rem; }
+.location-info h2 { font-size: 1.3rem; margin-bottom: 0.3rem; }
+.date-display { display: flex; align-items: center; gap: 0.5rem; color: var(--text-secondary); font-size: 0.85rem; }
+.card-body { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 2rem; }
+.temp-display { display: flex; align-items: flex-start; font-size: 4.5rem; font-weight: 700; line-height: 1; }
+.temp-unit { font-size: 1.5rem; margin-top: 0.5rem; font-weight: 500; transition: color 0.3s ease; }
+.temp-hot { color: #f97316; }
+.temp-cold { color: #0ea5e9; }
+.temp-mild { color: #10b981; }
+.condition-display { display: flex; align-items: center; gap: 0.5rem; font-size: 1.1rem; font-weight: 500; color: var(--text-secondary); }
+.stats-grid { display: flex; flex-direction: column; gap: 0.75rem; flex-grow: 1; max-width: 280px; }
+.stat-badge { display: flex; align-items: center; background-color: var(--bg-color); padding: 0.75rem 1rem; border-radius: 8px; font-size: 0.85rem; }
+.stat-label { color: var(--text-secondary); flex-grow: 1; }
+.stat-value { font-weight: 600; }
 
-.main-temp-block {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.temp-display {
-    display: flex;
-    align-items: flex-start;
-    font-size: 4.5rem;
-    font-weight: 700;
-    line-height: 1;
-}
-
-.temp-unit {
-    font-size: 1.5rem;
-    margin-top: 0.5rem;
-    font-weight: 500;
-    color: var(--temp-accent, var(--text-secondary)); /* Falls back to default if no class is active */
-    transition: color 0.3s ease;
-}
-
-/* Dynamic Temperature Colors */
-.temp-hot { --temp-accent: #f97316; }   /* Orange for > 25°C */
-.temp-cold { --temp-accent: #0ea5e9; }  /* Blue for < 10°C */
-.temp-mild { --temp-accent: #10b981; }  /* Green for 10°C - 25°C */
-
-.condition-display {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 1.1rem;
-    font-weight: 500;
-    color: var(--text-secondary);
-}
-
-.stats-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    flex-grow: 1;
-    max-width: 280px;
-}
-
-.stat-badge {
-    display: flex;
-    align-items: center;
-    background-color: var(--bg-color);
-    padding: 0.75rem 1rem;
-    border-radius: 8px;
-    font-size: 0.85rem;
-}
-
-.stat-label {
-    color: var(--text-secondary);
-    flex-grow: 1;
-}
-
-.stat-value {
-    font-weight: 600;
-}
-
-/* --- Milestone 4: Forecast Strip & Insights --- */
-
-/* 5-Day Forecast Strip */
-.forecast-section {
-    width: 100%;
-    animation: fadeIn 0.4s ease;
-}
-
+/* 5-Day Forecast */
+.forecast-section { animation: fadeIn 0.4s ease; }
 .forecast-grid {
     display: flex;
     justify-content: space-between;
     gap: 1rem;
-    overflow-x: auto; /* Allows scrolling on smaller screens */
-    padding-bottom: 0.5rem; /* Space for scrollbar if needed */
+    padding-bottom: 0.5rem;
 }
 
 .forecast-card {
     flex: 1;
-    min-width: 90px;
+    min-width: 85px;
     background-color: var(--surface-color);
     border: 1px solid var(--border-color);
     border-radius: 12px;
@@ -404,138 +326,158 @@ body {
     flex-direction: column;
     align-items: center;
     gap: 0.75rem;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    transition: all 0.3s ease;
+    cursor: default;
 }
 
-.forecast-card.today-card {
-    border: 2px solid #0d9488; /* Teal border to highlight today */
-    background-color: rgba(13, 148, 136, 0.03);
+.forecast-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.06);
+    border-color: var(--text-secondary);
 }
 
-[data-theme="dark"] .forecast-card.today-card {
-    background-color: rgba(13, 148, 136, 0.1);
+.forecast-card.today-card { border: 2px solid #0d9488; background-color: rgba(13, 148, 136, 0.03); }
+[data-theme="dark"] .forecast-card.today-card { background-color: rgba(13, 148, 136, 0.1); }
+.forecast-day { font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); }
+.forecast-card.today-card .forecast-day { color: #0d9488; }
+.forecast-icon { font-size: 1.5rem; }
+.forecast-temps { display: flex; flex-direction: column; align-items: center; gap: 0.2rem; }
+.temp-high { font-weight: 700; font-size: 1rem; }
+.temp-low { font-weight: 500; font-size: 0.85rem; color: var(--text-secondary); }
+
+/* Insights */
+.insights-section { animation: fadeIn 0.4s ease; }
+.insights-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+.hourly-row { display: flex; align-items: center; padding: 1rem 0; border-bottom: 1px solid var(--border-color); font-size: 0.9rem; transition: background-color 0.2s ease; }
+.hourly-row:hover { background-color: var(--surface-hover); padding-left: 0.5rem; border-radius: 4px; border-bottom-color: transparent;}
+.hourly-row:last-child { border-bottom: none; }
+.hourly-time { width: 60px; font-weight: 600; color: var(--text-secondary); }
+.hourly-condition { flex-grow: 1; display: flex; align-items: center; gap: 0.75rem; color: var(--text-secondary); }
+.hourly-temp { font-weight: 700; }
+
+/* Footer */
+.app-footer { padding: 2rem 1.5rem; display: flex; justify-content: space-between; align-items: flex-start; font-size: 0.8rem; color: var(--text-secondary); border-top: 1px solid var(--border-color); transition: border-color 0.4s ease, color 0.4s ease; }
+.footer-info span { font-size: 0.75rem; display: block; margin-top: 4px; }
+.footer-links { display: flex; gap: 1rem; }
+.footer-links a { color: var(--text-secondary); text-decoration: none; transition: color 0.2s ease; }
+.footer-links a:hover { color: #0d9488; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+
+/* --- MILESTONE 6: MEDIA QUERIES --- */
+
+/* Tablet (480px - 768px) */
+@media (max-width: 768px) {
+    .app-main { padding: 1.5rem 1rem; }
+    .forecast-grid { 
+        /* Non-scrolling but slightly tighter */
+        gap: 0.5rem; 
+    }
+    .card-body { gap: 1rem; }
 }
 
-.forecast-day {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--text-secondary);
-    text-transform: uppercase;
+/* Mobile (<480px) */
+@media (max-width: 480px) {
+    /* Header & Navigation Collapse */
+    .app-nav {
+        display: none; /* Hidden by default on mobile */
+        width: 100%;
+        flex-direction: column;
+        gap: 1rem;
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .app-nav.nav-open {
+        display: flex;
+        animation: fadeIn 0.3s ease;
+    }
+
+    .hidden-desktop {
+        display: flex; /* Show hamburger menu */
+    }
+
+    /* Search Area */
+    .search-btn span { display: none; } /* Hide the word 'SEARCH', keep icon */
+    .search-btn { padding: 0 1rem; }
+    
+    /* Layout Adjustments */
+    .card-body { flex-direction: column; align-items: stretch; }
+    .stats-grid { max-width: 100%; }
+    .temp-display { font-size: 3.5rem; }
+    
+    /* Horizontal Scrolling Forecast */
+    .forecast-grid {
+        overflow-x: auto;
+        padding-bottom: 1rem; /* Space for scrollbar */
+        scroll-snap-type: x mandatory;
+    }
+    .forecast-card {
+        min-width: 110px; /* Slightly wider so it looks swipeable */
+        scroll-snap-align: start;
+    }
+
+    /* Footer */
+    .app-footer {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 1.5rem;
+    }
+    .footer-links {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
 }
 
-.forecast-card.today-card .forecast-day {
-    color: #0d9488;
+/* --- City Suggestions Dropdown --- */
+.input-wrapper {
+    position: relative; /* Ensures the dropdown anchors to the search bar */
 }
 
-.forecast-icon {
-    font-size: 1.5rem;
+.suggestions-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin-top: 0.5rem;
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    list-style: none;
+    max-height: 220px;
+    overflow-y: auto;
+    z-index: 100; /* Keeps it above the weather cards */
+    padding: 0.5rem 0;
 }
 
-.forecast-temps {
+[data-theme="dark"] .suggestions-list {
+    box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+}
+
+.suggestions-list li {
+    padding: 0.75rem 1.25rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
     display: flex;
     flex-direction: column;
-    align-items: center;
     gap: 0.2rem;
 }
 
-.temp-high {
-    font-weight: 700;
-    font-size: 1rem;
+.suggestions-list li:hover {
+    background-color: var(--surface-hover);
 }
 
-.temp-low {
-    font-weight: 500;
-    font-size: 0.85rem;
-    color: var(--text-secondary);
-}
-
-/* Hourly Micro-Data Insights */
-.insights-section {
-    width: 100%;
-    animation: fadeIn 0.4s ease;
-}
-
-.insights-card {
-    background-color: var(--surface-color);
-    border-radius: 16px;
-    padding: 1.5rem 2rem;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
-    border: 1px solid var(--border-color);
-}
-
-.insights-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.5rem;
-}
-
-.insights-header h3 {
-    font-size: 1.1rem;
+.suggestion-name {
     font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--text-primary);
 }
 
-.hourly-list {
-    display: flex;
-    flex-direction: column;
-}
-
-.hourly-row {
-    display: flex;
-    align-items: center;
-    padding: 1rem 0;
-    border-bottom: 1px solid var(--border-color);
-    font-size: 0.9rem;
-}
-
-.hourly-row:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
-}
-
-.hourly-time {
-    width: 60px;
-    font-weight: 600;
+.suggestion-details {
+    font-size: 0.75rem;
     color: var(--text-secondary);
-}
-
-.hourly-condition {
-    flex-grow: 1;
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    color: var(--text-secondary);
-}
-
-.hourly-icon {
-    font-size: 1.1rem;
-}
-
-.hourly-temp {
-    font-weight: 700;
-    color: var(--accent-color);
-}
-
-/* --- Milestone 5: City Persistence & Reset --- */
-.app-reset-btn {
-    background-color: var(--surface-color);
-    color: #ef4444; /* Red icon color */
-    border: 1px solid var(--border-color);
-    border-radius: 8px; /* Slightly different shape to distinguish from main search */
-    padding: 0 0.75rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.2s ease, border-color 0.2s ease;
-}
-
-.app-reset-btn:hover {
-    background-color: #fee2e2;
-    border-color: #f87171;
-}
-
-[data-theme="dark"] .app-reset-btn:hover {
-    background-color: rgba(239, 68, 68, 0.15);
-    border-color: #991b1b;
 }

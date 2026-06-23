@@ -17,6 +17,14 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('weatherAppTheme', newTheme);
     });
 
+    // --- Milestone 6: Mobile Navigation Toggle ---
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const appNav = document.getElementById('app-nav');
+
+    mobileMenuBtn.addEventListener('click', () => {
+        appNav.classList.toggle('nav-open');
+    });
+
     // --- 2. Helper Functions ---
     const formatCurrentDate = () => {
         const options = { weekday: 'long', month: 'short', day: 'numeric' };
@@ -46,11 +54,18 @@ document.addEventListener('DOMContentLoaded', () => {
         return weatherMap[code] || { label: 'Unknown Condition', icon: '❓' };
     };
 
-    // --- 3. Search, UI Elements & Persistence ---
+    // --- 3. UI Elements ---
     const searchForm = document.getElementById('search-form');
     const cityInput = document.getElementById('city-input');
+    const searchBtn = document.getElementById('search-btn');
     const clearBtn = document.getElementById('clear-btn');
     const appResetBtn = document.getElementById('app-reset-btn');
+    const suggestionsList = document.getElementById('suggestions-list'); // NEW
+    
+    // ... (Keep the other variable declarations like loadingSpinner, sections, etc.)
+
+    let debounceTimer; // Variable to hold our debounce timer
+
     const loadingSpinner = document.getElementById('loading-spinner');
     const errorMessage = document.getElementById('error-message');
     
@@ -58,26 +73,82 @@ document.addEventListener('DOMContentLoaded', () => {
     const forecastSection = document.getElementById('forecast-section');
     const insightsSection = document.getElementById('insights-section');
 
-    // Input handlers
-    cityInput.addEventListener('input', () => {
-        if (cityInput.value.length > 0) {
+    cityInput.addEventListener('input', (e) => {
+        const query = e.target.value.trim();
+
+        if (query.length > 0) {
             clearBtn.classList.remove('hidden');
         } else {
             clearBtn.classList.add('hidden');
+            suggestionsList.classList.add('hidden'); // Hide suggestions if empty
+            return;
+        }
+
+        // Clear the previous timer
+        clearTimeout(debounceTimer);
+
+        // Start a new timer (wait 300ms before fetching)
+        debounceTimer = setTimeout(async () => {
+            if (query.length < 2) {
+                suggestionsList.classList.add('hidden');
+                return; // Don't search for 1-letter queries
+            }
+
+            try {
+                // Fetch up to 5 matching cities
+                const geoUrl = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}&count=5&language=en&format=json`;
+                const response = await fetch(geoUrl);
+                const data = await response.json();
+
+                suggestionsList.innerHTML = ''; // Clear old suggestions
+
+                if (data.results && data.results.length > 0) {
+                    data.results.forEach(city => {
+                        const li = document.createElement('li');
+                        
+                        // Some international cities don't have an "admin1" (state/province), so we check for it safely
+                        const state = city.admin1 ? `${city.admin1}, ` : '';
+                        
+                        li.innerHTML = `
+                            <span class="suggestion-name">${city.name}</span>
+                            <span class="suggestion-details">${state}${city.country}</span>
+                        `;
+                        
+                        // When a user clicks a suggestion
+                        li.addEventListener('click', () => {
+                            cityInput.value = city.name; // Fill the input
+                            suggestionsList.classList.add('hidden'); // Hide list
+                            fetchAndRenderWeather(city.name); // Trigger the main search!
+                        });
+                        
+                        suggestionsList.appendChild(li);
+                    });
+                    suggestionsList.classList.remove('hidden'); // Show the list
+                } else {
+                    suggestionsList.classList.add('hidden'); // Hide if no results
+                }
+            } catch (error) {
+                console.error("Error fetching suggestions:", error);
+            }
+        }, 300); // 300 milliseconds delay
+    });
+
+    // Close suggestions if the user clicks anywhere outside the search bar
+    document.addEventListener('click', (e) => {
+        if (!searchForm.contains(e.target)) {
+            suggestionsList.classList.add('hidden');
         }
     });
 
     clearBtn.addEventListener('click', () => {
         cityInput.value = '';
         clearBtn.classList.add('hidden');
+        suggestionsList.classList.add('hidden'); // Hide list on clear
         cityInput.focus();
     });
 
-    // Milestone 5: App Reset Handler
     appResetBtn.addEventListener('click', () => {
-        localStorage.removeItem('weatherAppLastCity'); // Clear storage
-        
-        // Reset UI to default empty state
+        localStorage.removeItem('weatherAppLastCity');
         cityInput.value = '';
         clearBtn.classList.add('hidden');
         appResetBtn.classList.add('hidden');
@@ -88,10 +159,20 @@ document.addEventListener('DOMContentLoaded', () => {
         if (insightsSection) insightsSection.classList.add('hidden');
     });
 
-    // Core Fetch Function (Refactored for reuse)
+    // Milestone 6: Manage Interactive States during fetch
+    const toggleInteractiveStates = (isLoading) => {
+        searchBtn.disabled = isLoading;
+        cityInput.disabled = isLoading;
+        if (isLoading) {
+            loadingSpinner.classList.remove('hidden');
+            errorMessage.classList.add('hidden');
+        } else {
+            loadingSpinner.classList.add('hidden');
+        }
+    };
+
     const fetchAndRenderWeather = async (city) => {
-        errorMessage.classList.add('hidden');
-        loadingSpinner.classList.remove('hidden');
+        toggleInteractiveStates(true);
         
         if (currentWeatherSection) currentWeatherSection.classList.add('hidden');
         if (forecastSection) forecastSection.classList.add('hidden');
@@ -114,9 +195,9 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!weatherResponse.ok) throw new Error('Failed to retrieve weather data.');
 
             const weatherData = await weatherResponse.json();
-
-            // Render Current Weather
             const current = weatherData.current;
+
+            // Render Current
             document.getElementById('cw-location').textContent = `${name}, ${country}`;
             document.getElementById('cw-date').textContent = formatCurrentDate();
             
@@ -132,7 +213,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('cw-pressure').textContent = `${current.surface_pressure} hPa`;
 
             const tempUnitEl = document.getElementById('cw-temp-unit');
-            tempUnitEl.classList.remove('temp-hot', 'temp-cold', 'temp-mild');
+            tempUnitEl.className = 'temp-unit'; // Reset
             if (tempValue >= 25) {
                 tempUnitEl.classList.add('temp-hot');
             } else if (tempValue <= 10) {
@@ -141,7 +222,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 tempUnitEl.classList.add('temp-mild');
             }
 
-            // Render 5-Day Forecast
+            // Render 5-Day
             const forecastContainer = document.getElementById('forecast-container');
             forecastContainer.innerHTML = ''; 
 
@@ -169,7 +250,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 forecastContainer.insertAdjacentHTML('beforeend', cardHTML);
             }
 
-            // Render Hourly Insights
+            // Render Hourly
             const hourlyContainer = document.getElementById('hourly-container');
             hourlyContainer.innerHTML = '';
 
@@ -209,26 +290,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 hourlyContainer.insertAdjacentHTML('beforeend', rowHTML);
             }
 
-            // Reveal sections & update input/storage
             currentWeatherSection.classList.remove('hidden');
             forecastSection.classList.remove('hidden');
             insightsSection.classList.remove('hidden');
-            appResetBtn.classList.remove('hidden'); // Show reset button
-
-            // Milestone 5: Save to localStorage upon successful load
+            appResetBtn.classList.remove('hidden');
+            
             localStorage.setItem('weatherAppLastCity', city);
-            cityInput.value = city; // Populate input box with current city
+            cityInput.value = city;
+            clearBtn.classList.remove('hidden'); // Ensure clear button shows when input is populated
 
         } catch (error) {
             console.error(error);
             errorMessage.textContent = error.message;
             errorMessage.classList.remove('hidden');
         } finally {
-            loadingSpinner.classList.add('hidden');
+            toggleInteractiveStates(false);
         }
     };
 
-    // Form Submission Listener
     searchForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const city = cityInput.value.trim();
@@ -237,7 +316,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- Milestone 5: Auto-Load on Refresh ---
     const lastVisitedCity = localStorage.getItem('weatherAppLastCity');
     if (lastVisitedCity) {
         fetchAndRenderWeather(lastVisitedCity);
