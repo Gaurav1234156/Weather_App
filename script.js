@@ -1,29 +1,30 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const themeToggleBtn = document.getElementById("theme-toggle");
+document.addEventListener('DOMContentLoaded', () => {
+    const themeToggleBtn = document.getElementById('theme-toggle');
     const htmlElement = document.documentElement;
 
-    // 1. Check for saved user preference in localStorage
-    const savedTheme = localStorage.getItem("weather-app-theme");
-    
-    if (savedTheme) {
-        htmlElement.setAttribute("data-theme", savedTheme);
+    // 1. Check for saved theme in localStorage
+    const savedTheme = localStorage.getItem('weatherAppTheme');
+
+    // 2. Apply saved theme or default to light
+    if (savedTheme === 'dark') {
+        htmlElement.setAttribute('data-theme', 'dark');
     } else {
-        // Optional: Check system preference if no localStorage value exists
-        const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-        if (systemPrefersDark) {
-            htmlElement.setAttribute("data-theme", "dark");
-        }
+        htmlElement.setAttribute('data-theme', 'light');
     }
 
-    // 2. Handle theme toggle click
-    themeToggleBtn.addEventListener("click", () => {
-        const currentTheme = htmlElement.getAttribute("data-theme");
-        const newTheme = currentTheme === "dark" ? "light" : "dark";
+    // 3. Handle toggle click event
+    themeToggleBtn.addEventListener('click', () => {
+        const currentTheme = htmlElement.getAttribute('data-theme');
+        let newTheme = 'light';
+
+        if (currentTheme === 'light') {
+            newTheme = 'dark';
+        }
+
+        // Apply new theme to DOM
+        htmlElement.setAttribute('data-theme', newTheme);
         
-        // Update DOM
-        htmlElement.setAttribute("data-theme", newTheme);
-        
-        // Persist to localStorage
-        localStorage.setItem("weather-app-theme", newTheme);
+        // Persist preference to localStorage
+        localStorage.setItem('weatherAppTheme', newTheme);
     });
 });

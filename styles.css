@@ -1,27 +1,34 @@
-/* Design Tokens / Theming System */
+/* --- Design Tokens --- */
 :root {
-    --bg-color: #f4f6f8;
+    /* Light Theme Variables */
+    --bg-color: #f4f7f9;
     --surface-color: #ffffff;
-    --text-primary: #1e293b;
-    --text-secondary: #64748b;
-    --accent-color: #0ea5e9;
+    --text-primary: #333333;
+    --text-secondary: #666666;
     --border-color: #e2e8f0;
-    --header-bg: #4c3c6d; /* Based on the reference design dark purple */
+    
+    /* Header (remains dark purple based on mockup) */
+    --header-bg: #4c416a;
     --header-text: #ffffff;
+    --nav-text: #a8a0c0;
+    --nav-active: #f1b36d;
 }
 
 [data-theme="dark"] {
-    --bg-color: #0f172a;
-    --surface-color: #1e293b;
-    --text-primary: #f8fafc;
-    --text-secondary: #94a3b8;
-    --accent-color: #38bdf8;
-    --border-color: #334155;
-    --header-bg: #1e1b4b;
+    /* Dark Theme Variables */
+    --bg-color: #121212;
+    --surface-color: #1e1e1e;
+    --text-primary: #e0e0e0;
+    --text-secondary: #aaaaaa;
+    --border-color: #333333;
+    
+    --header-bg: #2a2440;
     --header-text: #ffffff;
+    --nav-text: #8c85a6;
+    --nav-active: #f1b36d;
 }
 
-/* Global Reset */
+/* --- Global Reset & Base Styles --- */
 * {
     margin: 0;
     padding: 0;
@@ -33,12 +40,12 @@ body {
     background-color: var(--bg-color);
     color: var(--text-primary);
     transition: background-color 0.3s ease, color 0.3s ease;
-    min-height: 100vh;
     display: flex;
     justify-content: center;
+    min-height: 100vh;
 }
 
-/* Container limits to 700px on desktop */
+/* --- Layout Container --- */
 .app-container {
     width: 100%;
     max-width: 700px;
@@ -46,29 +53,47 @@ body {
     flex-direction: column;
     min-height: 100vh;
     background-color: var(--bg-color);
-    box-shadow: 0 0 20px rgba(0,0,0,0.05);
+    transition: background-color 0.3s ease;
 }
 
-/* Header Styles */
+/* --- Header & Nav --- */
 .app-header {
     background-color: var(--header-bg);
     color: var(--header-text);
     padding: 1rem 1.5rem;
+    border-radius: 0 0 8px 8px; /* Slight rounding based on typical modern app UI */
 }
 
 .header-top {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1rem;
 }
 
-.header-top h1 {
-    font-size: 1.25rem;
-    font-weight: 600;
+.brand {
+    font-weight: bold;
+    font-size: 1.1rem;
 }
 
-.theme-toggle-btn {
+.app-nav {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.app-nav a {
+    color: var(--nav-text);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding-bottom: 4px;
+}
+
+.app-nav a.active {
+    color: var(--nav-active);
+    border-bottom: 2px solid var(--nav-active);
+}
+
+#theme-toggle {
     background: none;
     border: none;
     color: var(--header-text);
@@ -78,61 +103,45 @@ body {
     justify-content: center;
 }
 
-.app-nav ul {
-    list-style: none;
-    display: flex;
-    gap: 1.5rem;
-    overflow-x: auto;
-}
-
-.app-nav a {
-    color: rgba(255, 255, 255, 0.7);
-    text-decoration: none;
-    font-size: 0.9rem;
-    padding-bottom: 0.25rem;
-}
-
-.app-nav a.active {
-    color: #ffffff;
-    border-bottom: 2px solid var(--accent-color);
-}
-
-/* Main Content Area */
+/* --- Main Content & Placeholders --- */
 .app-main {
-    flex: 1;
-    padding: 1.5rem;
+    flex-grow: 1;
+    padding: 2rem 1.5rem;
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
 }
 
-.placeholder-section {
+.placeholder-box {
     background-color: var(--surface-color);
     border: 1px dashed var(--border-color);
     border-radius: 12px;
     padding: 2rem;
     text-align: center;
     color: var(--text-secondary);
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }
 
-/* Footer Styles */
+/* --- Footer --- */
 .app-footer {
-    padding: 1.5rem;
+    padding: 2rem 1.5rem;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-    text-align: center;
+    justify-content: space-between;
+    align-items: flex-start;
     font-size: 0.8rem;
     color: var(--text-secondary);
     border-top: 1px solid var(--border-color);
 }
 
+.footer-info span {
+    font-size: 0.75rem;
+    display: block;
+    margin-top: 4px;
+}
+
 .footer-links {
     display: flex;
     gap: 1rem;
-    flex-wrap: wrap;
-    justify-content: center;
 }
 
 .footer-links a {
@@ -141,5 +150,5 @@ body {
 }
 
 .footer-links a:hover {
-    color: var(--accent-color);
+    text-decoration: underline;
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,11 +8,20 @@
 </head>
 <body>
     <div class="app-container">
+        
         <header class="app-header">
             <div class="header-top">
-                <h1>Weather App</h1>
-                <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle Theme">
-                    <svg id="theme-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <div class="brand">Weather App</div>
+                
+                <nav class="app-nav">
+                    <a href="#" class="active">Dashboard</a>
+                    <a href="#">Map</a>
+                    <a href="#">Education</a>
+                    <a href="#">Historical</a>
+                </nav>
+
+                <button id="theme-toggle" aria-label="Toggle dark/light mode">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="12" cy="12" r="5"></circle>
                         <line x1="12" y1="1" x2="12" y2="3"></line>
                         <line x1="12" y1="21" x2="12" y2="23"></line>
@@ -25,38 +34,30 @@
                     </svg>
                 </button>
             </div>
-            <nav class="app-nav">
-                <ul>
-                    <li><a href="#" class="active">Dashboard</a></li>
-                    <li><a href="#">Map</a></li>
-                    <li><a href="#">Education</a></li>
-                    <li><a href="#">Historical</a></li>
-                </ul>
-            </nav>
         </header>
 
         <main class="app-main">
-            <section id="search-section" class="placeholder-section">
-                <p>Search Bar Placeholder</p>
+            <section class="placeholder-box" id="search-placeholder">
+                <p>[ Placeholder: Search Bar ]</p>
             </section>
             
-            <section id="current-weather-section" class="placeholder-section">
-                <p>Current Weather Card Placeholder</p>
+            <section class="placeholder-box" id="current-weather-placeholder">
+                <p>[ Placeholder: Current Weather Card ]</p>
             </section>
 
-            <section id="forecast-section" class="placeholder-section">
-                <p>5-Day Forecast Strip Placeholder</p>
+            <section class="placeholder-box" id="forecast-placeholder">
+                <p>[ Placeholder: 5-Day Forecast Strip ]</p>
             </section>
 
-            <section id="insights-section" class="placeholder-section">
-                <p>Hourly Micro-Data Insights Placeholder</p>
+            <section class="placeholder-box" id="insights-placeholder">
+                <p>[ Placeholder: Hourly Micro-Data Insights ]</p>
             </section>
         </main>
 
         <footer class="app-footer">
-            <div class="footer-brand">
-                <strong>Weather App</strong>
-                <p>&copy; 2024 Weather App. Precision Weather Education</p>
+            <div class="footer-info">
+                <strong>Weather App</strong><br>
+                <span>© 2024 Weather App. Precision Weather Education.</span>
             </div>
             <div class="footer-links">
                 <a href="#">Privacy Policy</a>
@@ -64,6 +65,7 @@
                 <a href="#">Scientific Data Sources</a>
             </div>
         </footer>
+
     </div>
 
     <script src="script.js"></script>
