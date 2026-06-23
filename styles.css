@@ -152,3 +152,390 @@ body {
 .footer-links a:hover {
     text-decoration: underline;
 }
+
+/* Keep all your existing CSS from Milestone 1 above this line */
+
+/* --- Milestone 2: Search Section --- */
+.search-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+}
+
+.search-form {
+    display: flex;
+    width: 100%;
+    gap: 0.75rem;
+}
+
+.input-wrapper {
+    position: relative;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+}
+
+#city-input {
+    width: 100%;
+    padding: 0.8rem 2.5rem 0.8rem 1.2rem;
+    border: 1px solid var(--border-color);
+    border-radius: 24px;
+    background-color: var(--surface-color);
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#city-input:focus {
+    border-color: #0d9488;
+    box-shadow: 0 0 0 2px rgba(13, 148, 136, 0.2);
+}
+
+.clear-btn {
+    position: absolute;
+    right: 12px;
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.clear-btn:hover {
+    color: var(--text-primary);
+}
+
+.search-btn {
+    background-color: #0d9488; /* Teal color matching the mockup */
+    color: white;
+    border: none;
+    border-radius: 24px;
+    padding: 0 1.5rem;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: background-color 0.2s ease;
+}
+
+.search-btn:hover {
+    background-color: #0f766e;
+}
+
+/* Utility class to hide elements */
+.hidden {
+    display: none !important;
+}
+
+/* Loading Spinner */
+.loading-spinner {
+    width: 32px;
+    height: 32px;
+    border: 3px solid var(--border-color);
+    border-top: 3px solid #0d9488;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 1rem auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Error Message */
+.error-message {
+    background-color: #fee2e2;
+    color: #b91c1c;
+    padding: 0.8rem 1.2rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    width: 100%;
+    text-align: center;
+    border: 1px solid #f87171;
+    animation: fadeIn 0.3s ease;
+}
+
+[data-theme="dark"] .error-message {
+    background-color: rgba(185, 28, 28, 0.15);
+    color: #fca5a5;
+    border-color: #991b1b;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Milestone 3: Current Weather Card --- */
+.weather-section {
+    width: 100%;
+    animation: fadeIn 0.4s ease;
+}
+
+.current-weather-card {
+    background-color: var(--surface-color);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    border: 1px solid var(--border-color);
+}
+
+.location-info h2 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+}
+
+.date-display {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+}
+
+.card-body {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.main-temp-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.temp-display {
+    display: flex;
+    align-items: flex-start;
+    font-size: 4.5rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.temp-unit {
+    font-size: 1.5rem;
+    margin-top: 0.5rem;
+    font-weight: 500;
+    color: var(--temp-accent, var(--text-secondary)); /* Falls back to default if no class is active */
+    transition: color 0.3s ease;
+}
+
+/* Dynamic Temperature Colors */
+.temp-hot { --temp-accent: #f97316; }   /* Orange for > 25°C */
+.temp-cold { --temp-accent: #0ea5e9; }  /* Blue for < 10°C */
+.temp-mild { --temp-accent: #10b981; }  /* Green for 10°C - 25°C */
+
+.condition-display {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.stats-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    flex-grow: 1;
+    max-width: 280px;
+}
+
+.stat-badge {
+    display: flex;
+    align-items: center;
+    background-color: var(--bg-color);
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+}
+
+.stat-label {
+    color: var(--text-secondary);
+    flex-grow: 1;
+}
+
+.stat-value {
+    font-weight: 600;
+}
+
+/* --- Milestone 4: Forecast Strip & Insights --- */
+
+/* 5-Day Forecast Strip */
+.forecast-section {
+    width: 100%;
+    animation: fadeIn 0.4s ease;
+}
+
+.forecast-grid {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    overflow-x: auto; /* Allows scrolling on smaller screens */
+    padding-bottom: 0.5rem; /* Space for scrollbar if needed */
+}
+
+.forecast-card {
+    flex: 1;
+    min-width: 90px;
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.25rem 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.forecast-card.today-card {
+    border: 2px solid #0d9488; /* Teal border to highlight today */
+    background-color: rgba(13, 148, 136, 0.03);
+}
+
+[data-theme="dark"] .forecast-card.today-card {
+    background-color: rgba(13, 148, 136, 0.1);
+}
+
+.forecast-day {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+}
+
+.forecast-card.today-card .forecast-day {
+    color: #0d9488;
+}
+
+.forecast-icon {
+    font-size: 1.5rem;
+}
+
+.forecast-temps {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+}
+
+.temp-high {
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.temp-low {
+    font-weight: 500;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+/* Hourly Micro-Data Insights */
+.insights-section {
+    width: 100%;
+    animation: fadeIn 0.4s ease;
+}
+
+.insights-card {
+    background-color: var(--surface-color);
+    border-radius: 16px;
+    padding: 1.5rem 2rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+    border: 1px solid var(--border-color);
+}
+
+.insights-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.insights-header h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.hourly-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.hourly-row {
+    display: flex;
+    align-items: center;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.9rem;
+}
+
+.hourly-row:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.hourly-time {
+    width: 60px;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.hourly-condition {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.hourly-icon {
+    font-size: 1.1rem;
+}
+
+.hourly-temp {
+    font-weight: 700;
+    color: var(--accent-color);
+}
+
+/* --- Milestone 5: City Persistence & Reset --- */
+.app-reset-btn {
+    background-color: var(--surface-color);
+    color: #ef4444; /* Red icon color */
+    border: 1px solid var(--border-color);
+    border-radius: 8px; /* Slightly different shape to distinguish from main search */
+    padding: 0 0.75rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.app-reset-btn:hover {
+    background-color: #fee2e2;
+    border-color: #f87171;
+}
+
+[data-theme="dark"] .app-reset-btn:hover {
+    background-color: rgba(239, 68, 68, 0.15);
+    border-color: #991b1b;
+}
